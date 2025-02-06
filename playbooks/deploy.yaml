@@ -1,13 +1,17 @@
-- name: Deploy Docker Container
-  hosts: dockerservers
-  gather_facts: false
-  remote_user: root
+- name: Deploy Next.js App
+  hosts: web
+  become: yes
   tasks:
-    - name: Creating the Container
-      docker_container:
-         name: 66024963-nextjs-container #docker container name
-         image: 66024963-nextjs:latest #docker image name
-         ports:
-           - "4948:3000" #เลข port ตัวแรกคือเลข  port ที่รับมาจาก browser ตัวหลังคือ  port ของ docker (คงไว้ที่ 80 ถ้าเป็น nextjs project ก็ 3000)
-         state: started
-         restart: true
+    - name: Pull latest Docker image
+      command: docker pull my-docker-registry.com/my-nextjs-app:latest
+
+    - name: Stop existing container
+      command: docker rm -f nextjs_container
+      ignore_errors: yes
+
+    - name: Run Next.js container
+      command: >
+        docker run -d --name nextjs_container
+        -p 4948:3000
+        --env-file /path/to/.env
+        my-docker-registry.com/my-nextjs-app:latest
