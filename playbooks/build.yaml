@@ -1,7 +1,8 @@
 - name: Build Docker Image
-  hosts: dockerservers
-  gather_facts: false
-  remote_user: root
+  hosts: web
+  become: yes
   tasks:
     - name: Build Docker Image
-      command: docker build -t my-nextjs-app:latest -f Dockerfile
+      command: docker build -t my-nextjs-app:latest -f Dockerfile .
+      args:
+        chdir: ~/66024963-nextjs  # บอกให้รันคำสั่งในโฟลเดอร์โปรเจค
