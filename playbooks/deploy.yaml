@@ -13,5 +13,4 @@
       command: >
         docker run -d --name nextjs_container
         -p 4948:3000
-        --env-file /path/to/.env
         my-docker-registry.com/my-nextjs-app:latest

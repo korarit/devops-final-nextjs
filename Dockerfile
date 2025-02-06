@@ -1,12 +1,12 @@
 # Use an official Node.js runtime as base image
-FROM node:20
+FROM node:20-alpine
 
 WORKDIR /app
 
-COPY src/app/package.json src/app/package-lock.json ./
+COPY package.json package-lock.json ./
 RUN npm install
 
-COPY src/app ./
+COPY . .
 
 RUN npm run build
 
